@@ -2,13 +2,18 @@ import socket
 
 class Netcat(object):
 
-    def __init__(self):
-        self.address = (socket.gethostname(), 1234)
+
+    def connect(self, host, port):
+
+        if not isinstance(host, str):
+            raise Exception('Host must be ip address!')
+        try:
+            address = socket.getaddrinfo(host, port, proto=socket.IPPROTO_TCP)[0][4]
+        except IndexError:
+            raise Exception('unknown hostname or ip')
+
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    def connect(self):
-
-        self.socket.connect(self.address)
+        self.socket.connect(address)
 
     def read(self, length=1024):
         return self.socket.recv(length)
@@ -18,5 +23,3 @@ class Netcat(object):
 
     def close(self):
         self.socket.close()
-
-

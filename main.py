@@ -1,3 +1,5 @@
+import socket
+
 from netcat import Netcat
 import os
 
@@ -17,7 +19,8 @@ if os.path.exists(email_info.get('content_file')):
 
     # connect to server
     netcat = Netcat()
-    netcat.connect()
+    #enter host name and port here
+    netcat.connect('localhost', 80)
     netcat.write(data)
     print(str(netcat.read()))
 else:
